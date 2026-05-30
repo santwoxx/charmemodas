@@ -128,7 +128,9 @@ export default function InstagramFeed({ onSelectProduct, onAddToCart }: Instagra
               <img
                 src={post.imageUrl}
                 alt={post.caption}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 select-none"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 select-none will-change-transform"
                 referrerPolicy="no-referrer"
               />
 

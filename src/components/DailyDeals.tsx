@@ -114,7 +114,9 @@ export default function DailyDeals({
                       src={product.images[0]}
                       alt={product.name}
                       onClick={() => onSelectProduct(product)}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 will-change-transform"
                       referrerPolicy="no-referrer"
                     />
 

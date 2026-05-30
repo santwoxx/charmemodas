@@ -28,6 +28,37 @@ body {
   color: var(--color-brand-900);
 }
 
+/* Safari -webkit-backdrop-filter compatibility overrides */
+.backdrop-blur-xs {
+  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.backdrop-blur-2xs {
+  -webkit-backdrop-filter: blur(2px) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Hardware acceleration hints to make scrolling and transitions buttery smooth */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Safari rendering fixes for images inside flex/grid */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
+}
+
 .font-serif {
   font-family: var(--font-serif);
 }

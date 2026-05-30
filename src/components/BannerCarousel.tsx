@@ -88,8 +88,17 @@ export default function BannerCarousel({ onShopCollection, onOpenCouponDisclaime
               </div>
             </div>
           ) : (
-            /* Classic beige luxury gradient background */
-            <div className="absolute inset-0 bg-linear-to-r from-brand-50 via-brand-100 to-brand-200 z-0" />
+            /* Classic beige luxury gradient background with responsive cover texture for modern screen look */
+            <div className="absolute inset-0 bg-linear-to-r from-brand-50 via-brand-100 to-brand-200 z-0 overflow-hidden">
+              <img
+                src={slides[currentSlide].image}
+                alt=""
+                decoding="async"
+                className="md:hidden absolute inset-0 w-full h-full object-cover opacity-12 mix-blend-multiply pointer-events-none will-change-transform"
+                style={{ objectPosition: slides[currentSlide].position }}
+                referrerPolicy="no-referrer"
+              />
+            </div>
           )}
 
           {/* Core Banner visual grid containing content left and high fashion photography on right */}
@@ -148,7 +157,8 @@ export default function BannerCarousel({ onShopCollection, onOpenCouponDisclaime
               <img
                 src={slides[currentSlide].image}
                 alt={slides[currentSlide].title}
-                className="w-full h-full object-cover select-none pointer-events-none hover:scale-105 transition-transform duration-700"
+                decoding="async"
+                className="w-full h-full object-cover select-none pointer-events-none hover:scale-105 transition-transform duration-700 will-change-transform"
                 style={{ objectPosition: slides[currentSlide].position }}
                 referrerPolicy="no-referrer"
               />

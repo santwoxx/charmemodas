@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Search, Heart, ShoppingBag, MapPin, Menu, X, Copy, Check } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Search, Heart, ShoppingBag, MapPin, Menu, X, Copy, Check, ChevronRight, Sparkles } from "lucide-react";
 import { CartItem, Product } from "../types";
+import { motion, AnimatePresence } from "motion/react";
 
 interface HeaderProps {
   cart: CartItem[];
@@ -99,10 +101,12 @@ export default function Header({
         {/* Mobile menu toggle */}
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="md:hidden text-brand-900 p-1 hover:bg-brand-100 rounded-full transition-all cursor-pointer"
+          className="md:hidden flex items-center gap-1.5 text-brand-900 px-3 py-1.5 hover:bg-brand-50 active:scale-95 bg-brand-50/40 border border-brand-200 hover:border-brand-300 rounded-none transition-all cursor-pointer shadow-2xs"
           id="btn-mobile-menu-open"
+          title="Abrir Menu de Navegação"
         >
-          <Menu size={24} />
+          <Menu size={16} strokeWidth={2} />
+          <span className="text-[10px] tracking-[0.18em] uppercase font-mono font-bold text-brand-800 leading-none">Menu</span>
         </button>
 
         {/* Brand Logo - Serif design for elegant boutique look */}
@@ -218,101 +222,140 @@ export default function Header({
       </div>
 
       {/* Mobile Menu Drawer Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex md:hidden" id="mobile-menu-overlay">
-          {/* Backdrop mask */}
-          <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-xs"
-            onClick={() => setMobileMenuOpen(false)}
-          />
+      <AnimatePresence>
+        {mobileMenuOpen && typeof document !== "undefined" && createPortal(
+          <div className="fixed inset-0 z-100 flex md:hidden font-sans" id="mobile-menu-overlay">
+            {/* Backdrop mask */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-brand-950/60 backdrop-blur-xs cursor-pointer z-40"
+              onClick={() => setMobileMenuOpen(false)}
+            />
 
-          {/* Drawer sheet panel */}
-          <div className="relative w-72 max-w-xs bg-white h-full shadow-2xl p-5 flex flex-col justify-between overflow-y-auto">
-            <div>
-              <div className="flex items-center justify-between pb-4 border-b border-brand-200">
-                <div className="flex flex-col">
-                  <h2 className="text-xl tracking-widest font-serif font-black uppercase text-brand-900 leading-none">
-                    Charme
-                  </h2>
-                  <span className="text-[8px] tracking-widest uppercase font-mono text-brand-600 mt-1">
-                    Moda Feminina
-                  </span>
+            {/* Drawer sheet panel */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 24, stiffness: 220 }}
+              className="relative w-80 max-w-[85vw] bg-white h-full shadow-2xl flex flex-col justify-between z-50 overflow-hidden border-r border-brand-200"
+            >
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  {/* Header inside Panel */}
+                  <div className="p-5 border-b border-brand-200 flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <h2 className="text-xl tracking-widest font-serif font-black uppercase text-brand-900 leading-none">
+                        Charme
+                      </h2>
+                      <span className="text-[8px] tracking-widest uppercase font-mono text-brand-600 mt-1">
+                        Moda Feminina
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="p-1.5 hover:bg-brand-100 rounded-full text-brand-900 cursor-pointer active:scale-95 transition-all"
+                      id="btn-mobile-menu-close"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  {/* Scrollable Navigation List */}
+                  <div className="flex flex-col gap-5 p-5 overflow-y-auto max-h-[calc(100vh-215px)] scrollbar-thin">
+                    <h3 className="text-[10px] uppercase tracking-[0.2em] text-brand-400 font-bold font-mono">
+                      Categorias de Looks
+                    </h3>
+                    <div className="flex flex-col divide-y divide-brand-100 border border-brand-250/70 bg-brand-50/10 shadow-xs">
+                      {navCategories.map((cat) => {
+                        const isSelected = selectedCategory === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            onClick={() => {
+                              onSelectCategory(cat.id);
+                              onSearchChange("");
+                              setMobileMenuOpen(false);
+                            }}
+                            className={`flex items-center justify-between text-left text-sm py-3 px-4 transition-all duration-150 cursor-pointer ${
+                              isSelected
+                                ? "bg-brand-900 text-white font-bold tracking-wide shadow-xs"
+                                : "text-brand-800 hover:bg-brand-50/80 hover:text-brand-950 font-semibold"
+                            }`}
+                          >
+                            <span className="flex items-center gap-2">
+                              {cat.id === "all" && <Sparkles size={13} className={isSelected ? "text-brand-200" : "text-brand-500"} />}
+                              {cat.name}
+                            </span>
+                            <ChevronRight
+                              size={14}
+                              className={`transition-transform duration-200 ${
+                                isSelected ? "text-brand-200 translate-x-0.5" : "text-brand-400"
+                              }`}
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        const element = document.getElementById("virtual-closet");
+                        if (element) {
+                          element.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }}
+                      className="w-full flex items-center justify-between text-left text-xs py-3 px-4 bg-gradient-to-r from-pink-50/80 to-rose-50/80 text-pink-850 font-bold border border-pink-100/60 shadow-xs hover:from-pink-100/80 hover:to-rose-100/80 transition-all cursor-pointer active:scale-[0.99]"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+                        </span>
+                        <span>Lookbook Instagram (Virtual Closet)</span>
+                      </div>
+                      <ChevronRight size={14} className="text-pink-400" />
+                    </button>
+                  </div>
                 </div>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-1 hover:bg-brand-100 rounded-full text-brand-900 cursor-pointer"
-                  id="btn-mobile-menu-close"
-                >
-                  <X size={20} />
-                </button>
-              </div>
 
-              {/* Mobile Navigation List */}
-              <div className="flex flex-col gap-4 py-6 font-sans">
-                <h3 className="text-[10px] uppercase tracking-widest text-brand-500 font-bold mb-1">
-                  Categorias de Looks
-                </h3>
-                {navCategories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => {
-                      onSelectCategory(cat.id);
-                      onSearchChange("");
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`text-left text-sm py-2 hover:translate-x-1 hover:text-brand-600 transition-all font-semibold ${
-                      selectedCategory === cat.id
-                        ? "text-brand-700 pl-2 border-l-2 border-brand-600"
-                        : "text-brand-800"
-                    }`}
-                  >
-                    {cat.name}
-                  </button>
-                ))}
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    const element = document.getElementById("virtual-closet");
-                    if (element) {
-                      element.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
-                  className="text-left text-sm py-2 text-pink-700 font-bold flex items-center gap-2 hover:translate-x-1 transition-all"
-                >
-                  <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
-                  Lookbook Instagram (Virtual Closet)
-                </button>
+                {/* Bottom info cards on Drawer */}
+                <div className="border-t border-brand-200 p-5 flex flex-col gap-2 text-xs text-brand-700 bg-brand-50/50">
+                  <p className="font-semibold text-brand-900 flex items-center gap-1">
+                    <span>📍</span> Itabuna-BA
+                  </p>
+                  <p className="text-[11px] text-brand-600 leading-relaxed">Rua 22, n 56, Parque Boa Vista</p>
+                  <div className="flex gap-4 mt-2 font-mono text-[10px] border-t border-brand-200/60 pt-2.5">
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onOpenInfo();
+                      }}
+                      className="underline hover:text-brand-900 text-left cursor-pointer"
+                    >
+                      Informações
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onOpenFeedback();
+                      }}
+                      className="underline hover:text-brand-900 text-left cursor-pointer"
+                    >
+                      Depoimentos
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Bottom info cards on Drawer */}
-            <div className="border-t border-brand-200 pt-4 flex flex-col gap-2 font-sans text-xs text-brand-700">
-              <p className="font-medium text-brand-900">📍 Itabuna-BA</p>
-              <p>Rua 22, n 56, Parque Boa Vista</p>
-              <div className="flex gap-4 mt-2 font-mono text-[10px]">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenInfo();
-                  }}
-                  className="underline hover:text-brand-900 text-left"
-                >
-                  Informações
-                </button>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenFeedback();
-                  }}
-                  className="underline hover:text-brand-900 text-left"
-                >
-                  Depoimentos
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </div>,
+          document.body
+        )}
+      </AnimatePresence>
     </header>
   );
 }

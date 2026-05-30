@@ -45,12 +45,12 @@ export default function ProductDetailModal({
       <div className="fixed inset-0 cursor-default" onClick={onClose} />
 
       {/* Main product dialog card */}
-      <div className="relative bg-white rounded-none overflow-hidden shadow-2xl max-w-4xl w-full h-full max-h-[92vh] sm:max-h-[85vh] flex flex-col md:flex-row z-10 border border-brand-300">
+      <div className="relative bg-white rounded-none overflow-y-auto md:overflow-hidden shadow-2xl max-w-4xl w-full h-full max-h-[94vh] sm:max-h-[85vh] flex flex-col md:flex-row z-10 border border-brand-300">
         
         {/* Close Button top corner */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 bg-brand-50 hover:bg-brand-205 text-brand-900 border border-brand-200 px-3 py-1.5 rounded-none z-20 cursor-pointer shadow-sm transition-colors text-xs font-bold font-mono"
+          className="absolute top-4 right-4 bg-brand-50 hover:bg-brand-200 text-brand-900 border border-brand-200 px-3 py-1.5 rounded-none z-20 cursor-pointer shadow-sm transition-colors text-xs font-bold font-mono"
           id="btn-product-modal-close"
           title="Fechar"
         >
@@ -58,8 +58,8 @@ export default function ProductDetailModal({
         </button>
 
         {/* Left Side: Images galleries container */}
-        <div className="w-full md:w-1/2 bg-white flex flex-col justify-between p-4 border-r border-brand-200">
-          <div className="relative flex-1 aspect-4/5 w-full overflow-hidden rounded-none bg-brand-100 border border-brand-200">
+        <div className="w-full md:w-1/2 bg-white flex flex-col justify-between p-4 border-b md:border-b-0 md:border-r border-brand-200">
+          <div className="relative aspect-4/5 w-full overflow-hidden rounded-none bg-brand-100 border border-brand-200">
             <span className="absolute top-2.5 left-2.5 bg-brand-900 text-white text-[9px] font-mono font-bold px-3 py-0.5 rounded-none shadow-xs z-10 uppercase tracking-[0.15em]">
               Exclusividade Charme
             </span>
@@ -93,7 +93,7 @@ export default function ProductDetailModal({
         </div>
 
         {/* Right Side: Options product config */}
-        <div className="w-full md:w-1/2 p-5 sm:p-7 overflow-y-auto flex flex-col justify-between bg-brand-50/70 h-full font-sans text-brand-900 scrollbar-thin">
+        <div className="w-full md:w-1/2 p-5 sm:p-7 overflow-y-visible md:overflow-y-auto flex flex-col justify-between bg-brand-50/70 h-auto md:h-full font-sans text-brand-900 scrollbar-thin">
           <div>
             {/* Category and ratings */}
             <div className="flex items-center justify-between gap-2.5">
