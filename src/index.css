@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300..700&family=Fira+Code:wght@300..700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  /* Geometric Balance Elite Neutral Palette */
+  --color-brand-50: #FAF9F6;   /* Core warm bone/ivory background */
+  --color-brand-100: #F4F2EB;  /* Slightly depth neutral bone background */
+  --color-brand-200: #F2E8DF;  /* Iconic sandy linen/tan accent */
+  --color-brand-300: #E5E1D8;  /* Thin geometric border gray */
+  --color-brand-400: #D0C6B8;  /* Mid-tone border sand shade */
+  --color-brand-500: #A89D8C;  /* Olive-brown sand greige */
+  --color-brand-600: #867967;  /* Deep greige/khaki */
+  --color-brand-700: #5C5245;  /* Dark chocolate slate */
+  --color-brand-800: #3E372E;  /* Near black olive-brown */
+  --color-brand-900: #2C2C2C;  /* Main high-fashion dense ink */
+  --color-brand-950: #1C1A17;  /* High contrast background ink */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-brand-50);
+  color: var(--color-brand-900);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+

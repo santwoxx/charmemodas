@@ -1,0 +1,6 @@
+{
+  "name": "Charme Modas",
+  "description": "Sua loja de moda online e física em Itabuna, BA. Vista sua melhor versão com looks elegantes em bege, branco e tons terrosos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
